@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Endjin.ApiChange", "Endjin.ApiChange\Endjin.ApiChange.csproj", "{08AE77B7-78C1-4547-9674-CC00A4F15633}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Endjin.ApiChange.Specs", "Endjin.ApiChange.Specs\Endjin.ApiChange.Specs.csproj", "{3E806BD8-4589-430E-84A4-729FE6AAF8B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{08AE77B7-78C1-4547-9674-CC00A4F15633}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08AE77B7-78C1-4547-9674-CC00A4F15633}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08AE77B7-78C1-4547-9674-CC00A4F15633}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E806BD8-4589-430E-84A4-729FE6AAF8B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E806BD8-4589-430E-84A4-729FE6AAF8B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E806BD8-4589-430E-84A4-729FE6AAF8B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E806BD8-4589-430E-84A4-729FE6AAF8B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
