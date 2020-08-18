@@ -10,7 +10,7 @@ namespace Endjin.ApiChange.Api.Diff
     using Query;
     using Mono.Cecil;
 
-    public class AssemblyDiffer
+    public class AssemblyDiffer : IDisposable
     {
         private readonly AssemblyDiffCollection myDiff = new AssemblyDiffCollection();
 
@@ -18,14 +18,32 @@ namespace Endjin.ApiChange.Api.Diff
 
         private readonly AssemblyDefinition myV2;
 
+        private readonly bool ownAssemblyDefinitions;
+
+        /// <summary>
+        /// Creates an <see cref="AssemblyDiffer" /> from existing <see cref="AssemblyDefinition"/>
+        /// objects.
+        /// </summary>
+        /// <param name="v1">The assembly file v1.</param>
+        /// <param name="v2">The assembly file v2.</param>
+        /// <remarks>
+        /// When you use this constructor, the resulting instance will NOT dispose either of the
+        /// <see cref="AssemblyDefinition"/> objects. The assumption is that when the caller
+        /// supplies these objects, the caller owns them. (If you use path-based overload,
+        /// <see cref="AssemblyDiffer(string,string)"/>, this object will dispose the
+        /// <see cref="AssemblyDefinition"/> objects because in that case, this object created them
+        /// so only this object is able to dipose of them.)
+        /// </remarks>
         public AssemblyDiffer(AssemblyDefinition v1, AssemblyDefinition v2)
         {
             this.myV1 = v1 ?? throw new ArgumentNullException(nameof(v1));
             this.myV2 = v2 ?? throw new ArgumentNullException(nameof(v2));
+
+            ownAssemblyDefinitions = false;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AssemblyDiffer" /> class.
+        /// Creates an <see cref="AssemblyDiffer" />.
         /// </summary>
         /// <param name="assemblyFileV1">The assembly file v1.</param>
         /// <param name="assemblyFileV2">The assembly file v2.</param>
@@ -52,6 +70,8 @@ namespace Endjin.ApiChange.Api.Diff
             {
                 throw new ArgumentException($"Could not load assemblyV2 {assemblyFileV2}");
             }
+
+            ownAssemblyDefinitions = true;
         }
 
         private void OnAddedType(TypeDefinition type)
@@ -64,6 +84,16 @@ namespace Endjin.ApiChange.Api.Diff
         {
             var diff = new DiffResult<TypeDefinition>(type, new DiffOperation(false));
             this.myDiff.AddedRemovedTypes.Add(diff);
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            if (this.ownAssemblyDefinitions)
+            {
+                this.myV1.Dispose();
+                this.myV2.Dispose();
+            }
         }
 
         public AssemblyDiffCollection GenerateTypeDiff(QueryAggregator queries)
