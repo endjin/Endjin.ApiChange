@@ -351,3 +351,7 @@ MigrationBackup/
 
 # Rider
 .idea/
+
+# Migrate to scripted build
+_codeCoverage/
+*.sbom.*
